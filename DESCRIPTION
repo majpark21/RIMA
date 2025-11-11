@@ -1,0 +1,15 @@
+Package: RIMA
+Type: Package
+Title: Rigorous Matching of Atlases
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Marc-Antoine", "Jacques",
+      email = "jacques@ebi.ac.uk",
+      role = c("aut", "cre")
+    )
+  )
+Description: A package for matching single-cell atlases.
+License: GPL3
+Encoding: UTF-8
+LazyData: true
