@@ -1,9 +1,6 @@
-# library(SingleCellExperiment)
-# library(miloR)
-# library(S4Vectors)
-
 make_test_milo <- function() {
   # Use the simulated data from MiloR package for test, see Milo vignette: https://bioconductor.org/packages/release/bioc/vignettes/miloR/inst/doc/milo_demo.html
+  set.seed(7)
   sim_trajectory <- readRDS("miloR_sim_trajectory.rds")
 
   ## Extract SingleCellExperiment object

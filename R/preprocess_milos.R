@@ -3,20 +3,26 @@
 #' @param milo1,milo2 Milo objects or path to RDS files with Milo objects. Their nhoods slot must be populated.
 #' Rownames (i.e. features/gene names) must be specified to ensure that the right features
 #' are compared; feature mapping between the two objects can be provided, see 'dt_features'.
-#' @param calculate_similarities
-#' @param dt_features
+#' @param assay Assay to calculate neighbourhoods' expression.
+#' @param calculate_similarities Whether to calculate neighbourhood's expression. Needed for downstream steps.
+#' @param dt_features DataFrame with 2 columns that maps features across both milos in case the features are not fully overlapping.
+#' The 1st (resp. 2nd) column refers to rownames in milo1 (resp. milo2).
+#' This is useful for example to use orthologs to compare atlases of different species.
+#' This can also be used to perform the matching on a subset of features.
+#' If not specified, rownames must fully match between both milos.
 #'
-#' @returns
+#' @returns A list of 2 Milo objects, with the same row names.
+#'
 #' @export
 #'
 #' @examples
 preprocess_milos <- function(milo1,
                              milo2,
                              assay = "logcounts",
-                             calculate_similarities = TRUE,
+                             calculate_expression = TRUE,
                              dt_features = NULL) {
-  require(miloR)
-  require(SingleCellExperiment)
+  # require(miloR)
+  # require(SingleCellExperiment)
   # Check inputs -------------
   cat("Reading milo1...\n")
   if (is.character(milo1)) {
@@ -74,14 +80,21 @@ preprocess_milos <- function(milo1,
 
 
   # Calculate nhoods similarities -----------------
-  if (calculate_similarities) {
+  if (calculate_expression) {
     cat("Calculate nhoods similarities...\n")
     if (all(dim(milo1@nhoodExpression) == c(1, 1))) {
-      milo1 <- miloR::calcNhoodExpression(milo1, assay, subset.row = NULL)
+      milo1 <- calcNhoodExpression(milo1, assay, subset.row = NULL)
     }
     if (all(dim(milo2@nhoodExpression) == c(1, 1))) {
-      milo2 <- miloR::calcNhoodExpression(milo2, assay, subset.row = NULL)
+      milo2 <- calcNhoodExpression(milo2, assay, subset.row = NULL)
     }
+  }
+
+  if (is.null(colnames(nhoodExpression(milo1)))) {
+    colnames(nhoodExpression(milo1)) <- paste0("milo1_", 1:ncol(nhoodExpression(milo1)))
+  }
+  if (is.null(colnames(nhoodExpression(milo2)))) {
+    colnames(nhoodExpression(milo2)) <- paste0("milo2_", 1:ncol(nhoodExpression(milo2)))
   }
 
   return(list(milo1, milo2))
