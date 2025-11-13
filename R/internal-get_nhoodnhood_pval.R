@@ -62,8 +62,8 @@
   col_nhoods <- setdiff(colnames(dt_sim_true), col_sim)
   # Make sure nhoods are not integer because confuses grouping
   for (col in col_nhoods) {
-    dt_sim_true[[col]] <- as.character(dt_sim_true[[col]])
-    dt_sim_scrambled[[col]] <- as.character(dt_sim_scrambled[[col]])
+    set(dt_sim_true, j = col, value = as.character(dt_sim_true[[col]]))
+    set(dt_sim_scrambled, j = col, value = as.character(dt_sim_scrambled[[col]]))
   }
 
   if (is.null(col_group)) {

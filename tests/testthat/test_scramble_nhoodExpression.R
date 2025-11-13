@@ -3,16 +3,18 @@ test_that(
   {
     set.seed(7)
     milo <- make_test_milo()
+    milo <- calcNhoodExpression(milo)
     n_nhoods <- dim(nhoods(milo))[2]
     n_genes <- nrow(milo)
 
     n_scramble <- 5
+    cell_weights <- .scramble_calculateWeights(milo, col_scramble = "Sample")
 
     out <- .scramble_nhoodExpression(
       milo,
       n = n_scramble,
       replace = FALSE,
-      weight_sample = NULL,
+      weight_sample = cell_weights,
       assay = "logcounts"
     )
 

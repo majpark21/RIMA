@@ -51,7 +51,7 @@
   l_matExpression <- list(nhoodExpression(milos[[1]]))
   for (ii in 1:n_scrambles) {
     l_matExpression[[2]] <- l_scrambled_assay_nhoods[[ii]]
-    dt_sims_scrambled <- calculate_similarities(milos = l_matExpression, sim = sim_method)
+    dt_sims_scrambled <- calculate_similarities(milos = l_matExpression, method = sim_method)
 
     setnames(dt_sims_scrambled, c(name_intact, name_scramble, "sim"))
     l_sims_scrambled[[ii]] <- dt_sims_scrambled

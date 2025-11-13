@@ -12,7 +12,7 @@ calculate_similarities(milos, method = "spearman")
 \item{method}{Similarity metric. Must be one of c('pearson', 'kendall', 'spearman').}
 }
 \value{
-A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the thrid indicate the similarity metric.
+A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value.
 }
 \description{
 Calculate neighbourhood-neighbourhood similarities
