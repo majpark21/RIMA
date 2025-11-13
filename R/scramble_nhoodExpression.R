@@ -1,7 +1,7 @@
 #' Scramble cell identity in a Milo object, and calculate scrambled nhoodExpression
 #'
 #' @param milo A Milo object with filled nhoods slot.
-#' @param n Number of permutations
+#' @param n Number of permutations.
 #' @param replace Is the resampling to be done with replacement? If FALSE, this is a simple permutation.
 #' @param weight_sample A vector of same length as number of cells that defines how likely a cell is to be picked. If specified, sampling is always done with replacement.
 #' @param assay Assay to calculate neighbourhoods' expression.
