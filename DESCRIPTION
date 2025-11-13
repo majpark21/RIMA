@@ -17,4 +17,5 @@ RoxygenNote: 7.3.3
 Imports:
     data.table,
     miloR,
-    SingleCellExperiment
+    SingleCellExperiment,
+    Matrix

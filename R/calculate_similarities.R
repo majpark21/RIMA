@@ -3,7 +3,7 @@
 #' @param milos List of 2 Milo objects with a filled nhoodExpression slot. Alternatively, can pass a list of 2 matrices representing neighbourhood expression.
 #' @param method Similarity metric. Must be one of c('pearson', 'kendall', 'spearman').
 #'
-#' @returns A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the thrid indicate the similarity metric.
+#' @returns A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value.
 #' @export
 #'
 #' @examples
