@@ -6,7 +6,7 @@
 #' @param weight_sample A vector of same length as number of cells that defines how likely a cell is to be picked. If specified, sampling is always done with replacement.
 #' @param assay Assay to calculate neighbourhoods' expression.
 #'
-#' @returns A list of length n, where each entry is a matrix of dimensions [n_cell, n_nhood], containing the nhoodExpression of scrambled neighbourhoods.
+#' @returns A list of length n, where each entry is a matrix of dimensions [n_genes, n_nhoods], containing the nhoodExpression of scrambled neighbourhoods.
 #'
 #' @examples
 #' @noRd

@@ -1,10 +1,10 @@
 test_that(
   "Weights for scrambling is inversely proportional to the frequency of labels.",
   {
-    milo1 <- make_test_milo()
+    milo <- make_test_milo()
 
-    weights <- .getWeightScrambling(milo1, col_scramble = "Sample")
-    expect_length(weights, ncol(milo1))
+    weights <- .scramble_calculateWeights(milo, col_scramble = "Sample")
+    expect_length(weights, ncol(milo))
     expect_equal(sum(unique(weights)), 1, tolerance = 0.01)
   }
 )
