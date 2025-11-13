@@ -8,11 +8,14 @@
 #' @param col_group Name of a column in dt_sim_true. Specifies the groups that are used to define the null population in pvalue calculation. If named after one of the two first columns containing neighbourhood names, the pvalues will be estimated for each neighbourhood individually. Specifically, this means that all true nhood1-nhoodX similarity values will be compared to the similarity values of all scrambled pairs involving nhood1 (i.e. nhood1-scrambled1, nhood1-scrambled2...). If NULL, the scrambled similarities across every pair (not just those containing nhood1) will be used to estimate the NULL population (not recommended).
 #'
 #' @returns A data.table based on 'dt_sim_true', with 2 extra columns representing the pvalue and the adjusted pvalue associated with each similarity value.
-#' @export
 #'
 #' @examples
-.get_nhoodnhood_pval <- function(dt_sim_true, dt_sim_scrambled, alpha=0.05, adjust="fdr", col_sim="sim", col_group=NULL){
-
+.get_nhoodnhood_pval <- function(dt_sim_true,
+                                 dt_sim_scrambled,
+                                 alpha = 0.05,
+                                 adjust = "fdr",
+                                 col_sim = "sim",
+                                 col_group = NULL) {
   #' Basic function applied to each group to compare true similarities to scrambled similarities. From this returns pvalues, or the significance cutoff of similarity.
   #'
   #' First estimates null population by calculating ECDF of scrambled similarities. True similarities are compared to this null distribution and assigned a pvalue. The pvalue represent the proportion of scrambled similarities that are greater than the true similarity.
@@ -23,28 +26,32 @@
   #' @param return_cutoff If TRUE, instead of calculating pvalues, return similarity cutoff of significance.
   #'
   #' @returns A list of 2 vectors of same length as v_sim_true. The first represents the pvalues associated with the true similarities, the second represents the pvalues after adjustment.
-  .compare_true_scrambled <- function(v_sim_true, v_sim_scrambled, alpha=0.05, adjust="fdr", return_cutoff=FALSE){
-      # Special case speed-up: no need to calculate costly ecdf
-      if((return_cutoff) & (is.null(adjust))){
-        cutoff <- quantile(v_sim_scrambled, probs=1-alpha)
-        return(cutoff)
-      }
-      # All other cases need to calculate ecdf
-      fn_ecdf <- ecdf(v_sim_scrambled)  # Estimate p-values function using scrambled distribution
-      pvals <- 1 - fn_ecdf(v_sim_true)  # Assign p-values to authentic distribution
-      if(!is.null(adjust)){
-        pvals_adj <- p.adjust(pvals, method=adjust)
-      } else {
-        pvals_adj <- pvals
-      }
-      if(return_cutoff){
-        signif_sim <- which(pvals <= alpha)
-        cutoff <- min(v_sim_true[signif_sim])
-        return(cutoff)
-      } else {
-        return(list(pvals=pvals, pvals_adj=pvals_adj))
-      }
+  .compare_true_scrambled <- function(v_sim_true,
+                                      v_sim_scrambled,
+                                      alpha = 0.05,
+                                      adjust = "fdr",
+                                      return_cutoff = FALSE) {
+    # Special case speed-up: no need to calculate costly ecdf
+    if ((return_cutoff) & (is.null(adjust))) {
+      cutoff <- quantile(v_sim_scrambled, probs = 1 - alpha)
+      return(cutoff)
     }
+    # All other cases need to calculate ecdf
+    fn_ecdf <- ecdf(v_sim_scrambled)  # Estimate p-values function using scrambled distribution
+    pvals <- 1 - fn_ecdf(v_sim_true)  # Assign p-values to authentic distribution
+    if (!is.null(adjust)) {
+      pvals_adj <- p.adjust(pvals, method = adjust)
+    } else {
+      pvals_adj <- pvals
+    }
+    if (return_cutoff) {
+      signif_sim <- which(pvals <= alpha)
+      cutoff <- min(v_sim_true[signif_sim])
+      return(cutoff)
+    } else {
+      return(list(pvals = pvals, pvals_adj = pvals_adj))
+    }
+  }
 
   cols_original <- colnames(dt_sim_true)
   dt_sim_true <- copy(dt_sim_true)  # Avoid modifying original object
@@ -54,12 +61,12 @@
   col_pval_adj <- "pval_adjusted"
   col_nhoods <- setdiff(colnames(dt_sim_true), col_sim)
   # Make sure nhoods are not integer because confuses grouping
-  for(col in col_nhoods){
+  for (col in col_nhoods) {
     dt_sim_true[[col]] <- as.character(dt_sim_true[[col]])
     dt_sim_scrambled[[col]] <- as.character(dt_sim_scrambled[[col]])
   }
 
-  if(is.null(col_group)){
+  if (is.null(col_group)) {
     tmp <- .compare_true_scrambled(
       v_sim_true = dt_sim_true[[col_sim]],
       v_sim_scrambled = dt_sim_scrambled[[col_sim]],
@@ -74,8 +81,10 @@
     setkeyv(dt_sim_scrambled, col_group)
 
     groups <- unique(dt_sim_true[[col_group]])
-    pb <- txtProgressBar(min = 0, max = length(groups), style = 3)
-    for(idx_groups in seq(length(groups))){
+    pb <- txtProgressBar(min = 0,
+                         max = length(groups),
+                         style = 3)
+    for (idx_groups in seq(length(groups))) {
       curr_group <- groups[idx_groups]
       tmp <- .compare_true_scrambled(
         v_sim_true = dt_sim_true[curr_group, get(col_sim)],
