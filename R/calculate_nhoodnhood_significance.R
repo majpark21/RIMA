@@ -2,10 +2,10 @@
 #'
 #' This function takes in both Milos objects and the similarities between  does the scrambling of nhoods, and calculates the pvalues against scrambled similarities.
 #' @param milos A list of 2 Milo objects, the 1st one is kept intact, the 2nd one is scrambled.
-#' @param dt_sims_true A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This contains the similarity values between intact neighbourhoods.
+#' @param dt_sims A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This contains the similarity values between intact neighbourhoods.
 #' @param col_scramble_label The name of a column in the 2nd Milo's colData. Label frequencies are estimated from this column and used in the scrambling process to weight the sampling probability of each cell.. Cells with most common samples are less likely to be sampled.
 #' @param n_scrambles Number of rounds of cell resampling.
-#' @param sel_assay Assay from milos from which to calculate the neighbourhood expression.
+#' @param assay Assay from milos from which to calculate the neighbourhood expression.
 #' @param sim_method Similarity metric. Must be one of c('pearson', 'kendall', 'spearman').
 #' @param adjust Method to correct pvalues for multiple testing. If NULL does not do pvalue correction. Must be a valid method in 'p.adjust'.
 #' @param alpha_adjust Level of significance to call significant edges. Float between 0 and 1.
@@ -20,25 +20,26 @@
 #'
 #' @examples
 calculate_nhoodnhood_significance <- function(milos,
-                                              dt_sims_true,
-                                              col_scramble_label = "false",
+                                              dt_sims,
                                               n_scrambles,
-                                              sel_assay = "logcounts",
+                                              col_scramble_label = "false",
+                                              assay = "logcounts",
                                               sim_method = "spearman",
-                                              adjust,
-                                              alpha_adjust,
+                                              adjust = "holm",
+                                              alpha_adjust = 0.05,
                                               direction = c('b', 'lr', 'rl')) {
+  direction <- match.arg(direction)
   # Arguments for .calculate_nhoodnhood_significance_oneway() common to all calls, no matter the direction
   ls_args_common <- list(
     col_scramble_label = col_scramble_label,
     n_scrambles = n_scrambles,
-    sel_assay = sel_assay,
+    assay = assay,
     sim_method =  sim_method,
-    adjust = method_adjust,
+    adjust = adjust,
     alpha_adjust = alpha_adjust
   )
-  name_milo1 <- colnames(dt_sims_true)[1]
-  name_milo2 <- colnames(dt_sims_true)[2]
+  name_milo1 <- colnames(dt_sims)[1]
+  name_milo2 <- colnames(dt_sims)[2]
 
   # Left -> Right: 1st Milo intact, 2nd Milo scrambled ============================================
   if (direction == 'lr') {
@@ -47,7 +48,7 @@ calculate_nhoodnhood_significance <- function(milos,
       milos = list(milos[[1]], milos[[2]]),
       name_intact = name_milo1,
       name_scramble = name_milo2,
-      dt_sims = dt_sims[, ..cols_sim]
+      dt_sims_true = dt_sims[, ..cols_sim]
     )
     ls_args <- append(ls_args, ls_args_common)
     dt_sims_withSignif <- do.call(.calculate_nhoodnhood_significance_oneway, ls_args)
@@ -59,7 +60,7 @@ calculate_nhoodnhood_significance <- function(milos,
       milos = list(milos[[2]], milos[[1]]),
       name_intact = name_milo2,
       name_scramble = name_milo1,
-      dt_sims = dt_sims[, ..cols_sim]
+      dt_sims_true = dt_sims[, ..cols_sim]
     )
     ls_args <- append(ls_args, ls_args_common)
     dt_sims_withSignif <- do.call(.calculate_nhoodnhood_significance_oneway, ls_args)
@@ -71,11 +72,10 @@ calculate_nhoodnhood_significance <- function(milos,
     # left -> right
     cols_sim <- c(name_milo1, name_milo2, "sim")
     ls_args <- list(
-      milo_intact = milo1,
-      milo_scramble = milo2,
+      milos = list(milos[[1]], milos[[2]]),
       name_intact = name_milo1,
       name_scramble = name_milo2,
-      dt_sims = dt_sims[, ..cols_sim]
+      dt_sims_true = dt_sims[, ..cols_sim]
     )
     ls_args <- append(ls_args, ls_args_common)
     ls_pvals[[1]] <- do.call(.calculate_nhoodnhood_significance_oneway, ls_args)
@@ -83,11 +83,10 @@ calculate_nhoodnhood_significance <- function(milos,
     # right -> left
     cols_sim <- c(name_milo2, name_milo1, "sim")
     ls_args <- list(
-      milo_intact = milo2,
-      milo_scramble = milo1,
+      milos = list(milos[[2]], milos[[1]]),
       name_intact = name_milo2,
       name_scramble = name_milo1,
-      dt_sims = dt_sims[, ..cols_sim]
+      dt_sims_true = dt_sims[, ..cols_sim]
     )
     ls_args <- append(ls_args, ls_args_common)
     ls_pvals[[2]] <- do.call(.calculate_nhoodnhood_significance_oneway, ls_args)
@@ -100,11 +99,11 @@ calculate_nhoodnhood_significance <- function(milos,
       by = c(name_milo1, name_milo2),
       suffixes = c("_lr", "_rl")
     )
-    dt_sims_withSignif[, pval_combined := combine_2pvals_sime(pval_lr, pval_rl), by =
+    dt_sims_withSignif[, pval_combined := .combine_2pvals_simes(pval_lr, pval_rl), by =
                          1:nrow(dt_sims_withSignif)]
-    dt_sims_withSignif[, pval_combined_adjusted := p.adjust(pval_combined, method =
-                                                              method_adjust)]
-    dt_sims_withSignif[, is_significant := pval_combined_adjusted <= alpha_adjust]
+    dt_sims_withSignif[, pval_adjusted_combined := p.adjust(pval_combined, method =
+                                                              adjust)]
+    dt_sims_withSignif[, is_significant := pval_adjusted_combined <= alpha_adjust]
 
     # Consistent column names and order with unidirectional
     dt_sims_withSignif[, sim := sim_lr]  # duplicated sim_lr and sim_rl if sim_method is symmetrical

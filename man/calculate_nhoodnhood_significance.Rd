@@ -6,26 +6,26 @@
 \usage{
 calculate_nhoodnhood_significance(
   milos,
-  dt_sims_true,
-  col_scramble_label = "false",
+  dt_sims,
   n_scrambles,
-  sel_assay = "logcounts",
+  col_scramble_label = "false",
+  assay = "logcounts",
   sim_method = "spearman",
-  adjust,
-  alpha_adjust,
+  adjust = "holm",
+  alpha_adjust = 0.05,
   direction = c("b", "lr", "rl")
 )
 }
 \arguments{
 \item{milos}{A list of 2 Milo objects, the 1st one is kept intact, the 2nd one is scrambled.}
 
-\item{dt_sims_true}{A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This contains the similarity values between intact neighbourhoods.}
-
-\item{col_scramble_label}{The name of a column in the 2nd Milo's colData. Label frequencies are estimated from this column and used in the scrambling process to weight the sampling probability of each cell.. Cells with most common samples are less likely to be sampled.}
+\item{dt_sims}{A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This contains the similarity values between intact neighbourhoods.}
 
 \item{n_scrambles}{Number of rounds of cell resampling.}
 
-\item{sel_assay}{Assay from milos from which to calculate the neighbourhood expression.}
+\item{col_scramble_label}{The name of a column in the 2nd Milo's colData. Label frequencies are estimated from this column and used in the scrambling process to weight the sampling probability of each cell.. Cells with most common samples are less likely to be sampled.}
+
+\item{assay}{Assay from milos from which to calculate the neighbourhood expression.}
 
 \item{sim_method}{Similarity metric. Must be one of c('pearson', 'kendall', 'spearman').}
 
