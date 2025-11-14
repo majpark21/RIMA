@@ -16,16 +16,16 @@
                                  adjust = "holm",
                                  col_sim = "sim",
                                  col_group = NULL) {
-  #' Basic function applied to each group to compare true similarities to scrambled similarities. From this returns pvalues, or the significance cutoff of similarity.
-  #'
-  #' First estimates null population by calculating ECDF of scrambled similarities. True similarities are compared to this null distribution and assigned a pvalue. The pvalue represent the proportion of scrambled similarities that are greater than the true similarity.
-  #' @param v_sim_true Numerical vector holding the similarities between original neighbourhoods.
-  #' @param v_sim_scrambled Numerical vector the similarities between original and scrambled neighbourhoods.
-  #' @param alpha Level of significance to call significant edges. Float between 0 and 1. Only used if return_cutoff is TRUE.
-  #' @param adjust Method to correct pvalues for multiple testing. If NULL does not do pvalue correction. Must be a valid method in 'p.adjust'.
-  #' @param return_cutoff If TRUE, instead of calculating pvalues, return similarity cutoff of significance.
-  #'
-  #' @returns A list of 2 vectors of same length as v_sim_true. The first represents the pvalues associated with the true similarities, the second represents the pvalues after adjustment.
+  # Basic function applied to each group to compare true similarities to scrambled similarities. From this returns pvalues, or the significance cutoff of similarity.
+  #
+  # First estimates null population by calculating ECDF of scrambled similarities. True similarities are compared to this null distribution and assigned a pvalue. The pvalue represent the proportion of scrambled similarities that are greater than the true similarity.
+  # @param v_sim_true Numerical vector holding the similarities between original neighbourhoods.
+  # @param v_sim_scrambled Numerical vector the similarities between original and scrambled neighbourhoods.
+  # @param alpha Level of significance to call significant edges. Float between 0 and 1. Only used if return_cutoff is TRUE.
+  # @param adjust Method to correct pvalues for multiple testing. If NULL does not do pvalue correction. Must be a valid method in 'p.adjust'.
+  # @param return_cutoff If TRUE, instead of calculating pvalues, return similarity cutoff of significance.
+  #
+  # @returns A list of 2 vectors of same length as v_sim_true. The first represents the pvalues associated with the true similarities, the second represents the pvalues after adjustment.
   .compare_true_scrambled <- function(v_sim_true,
                                       v_sim_scrambled,
                                       alpha = 0.05,

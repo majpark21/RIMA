@@ -16,30 +16,17 @@
 \arguments{
 \item{dt_sim_true, dt_sim_scrambled}{data.table with 3 columns, as returned by calculate_similarities(). The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. dt_sim_true holds the similarities between original neighbourhoods, dt_sim_scrambled holds the similarities between original and scrambled neighbourhoods.}
 
-\item{alpha}{Level of significance to call significant edges. Float between 0 and 1. Only used if return_cutoff is TRUE.}
+\item{alpha}{Level of significance to call significant edges. Float between 0 and 1.}
 
 \item{adjust}{Method to correct pvalues for multiple testing. If NULL does not do pvalue correction. Must be a valid method in 'p.adjust'.}
 
 \item{col_sim}{Name of the column holding the similarity values in dt_sim_true and dt_sim_scrambled.}
 
 \item{col_group}{Name of a column in dt_sim_true. Specifies the groups that are used to define the null population in pvalue calculation. If named after one of the two first columns containing neighbourhood names, the pvalues will be estimated for each neighbourhood individually. Specifically, this means that all true nhood1-nhoodX similarity values will be compared to the similarity values of all scrambled pairs involving nhood1 (i.e. nhood1-scrambled1, nhood1-scrambled2...). If NULL, the scrambled similarities across every pair (not just those containing nhood1) will be used to estimate the NULL population (not recommended).}
-
-\item{v_sim_true}{Numerical vector holding the similarities between original neighbourhoods.}
-
-\item{v_sim_scrambled}{Numerical vector the similarities between original and scrambled neighbourhoods.}
-
-\item{return_cutoff}{If TRUE, instead of calculating pvalues, return similarity cutoff of significance.}
 }
 \value{
 A data.table based on 'dt_sim_true', with 2 extra columns representing the pvalue and the adjusted pvalue associated with each similarity value.
-
-A list of 2 vectors of same length as v_sim_true. The first represents the pvalues associated with the true similarities, the second represents the pvalues after adjustment.
 }
 \description{
-First estimates null population by calculating ECDF of scrambled similarities. True similarities are compared to this null distribution and assigned a pvalue. The pvalue represent the proportion of scrambled similarities that are greater than the true similarity.
-}
-\examples{
-Basic function applied to each group to compare true similarities to scrambled similarities. From this returns pvalues, or the significance cutoff of similarity.
-
 First estimates null population by calculating ECDF of scrambled similarities. True similarities are compared to this null distribution and assigned a pvalue. The pvalue represent the proportion of scrambled similarities that are greater than the true similarity.
 }

@@ -1,3 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("stats", "cor", "ecdf", "p.adjust", "quantile")
+importFrom("utils", "setTxtProgressBar", "txtProgressBar")
 import(data.table)
 importFrom(miloR, nhoodExpression, nhoods, calcNhoodExpression)

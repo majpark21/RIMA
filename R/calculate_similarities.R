@@ -20,14 +20,14 @@ calculate_similarities <- function(milos, method = "spearman") {
   milo2 <- milos[[2]]
   if (is.matrix(milo1)) {
     nhoods1 <- milo1
-  } else if (class(milo1) == "Milo") {
+  } else if (inherits(milo1, "Milo")) {
     nhoods1 <- nhoodExpression(milo1)
   } else {
     stop("'milo1' must be of class Milo or a matrix.")
   }
   if (is.matrix(milo2)) {
     nhoods2 <- milo2
-  } else if (class(milo2) == "Milo") {
+  } else if (inherits(milo2, "Milo")) {
     nhoods2 <- nhoodExpression(milo2)
   } else {
     stop("'milo2' must be of class Milo or a matrix.")

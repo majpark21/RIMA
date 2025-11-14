@@ -4,12 +4,19 @@
 \alias{.weightedBipartiteGraphMatching}
 \title{Weighted Bipartite Graph Matching}
 \usage{
-.weightedBipartiteGraphMatching(dt_signif_sims, col_sim = "sim")
+.weightedBipartiteGraphMatching(
+  dt_significant_nhoodnhood,
+  col_sim = "sim",
+  col_nhoods1 = NULL,
+  col_nhoods2 = NULL
+)
 }
 \arguments{
-\item{dt_signif_sims}{A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This should only contain the significant nhood-nhood edges to be used for matching.}
+\item{dt_significant_nhoodnhood}{A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This should only contain the significant nhood-nhood edges to be used for matching.}
 
-\item{col_sim}{Column name of dt_signif_sims containing the similarity values.}
+\item{col_sim}{Column name of dt_significant_nhoodnhood containing the similarity values.}
+
+\item{col_nhoods1}{Column name of dt_significant_nhoodnhood containing the names of the 1st (resp. 2nd) sets of nhoods to be matched. If NULL, automatically set to the 1st (resp. 2nd) column name of dt_significant_nhoodnhood}
 }
 \value{
 A data.table where each row represent a pair of matched neighbourhoods.
