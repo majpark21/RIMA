@@ -17,19 +17,19 @@
 #' 2. Calculate the similarities between true nhoods from the 1st Milo and the scrambled nhoods from the 2nd Milo
 #' 3. Calculate and adjust pvalues for each nhood-nhood edges by comparing dt_sims_true to the scrambled ones.
 #'
-#' @returns
+#' @returns A data.table with 3 columns
 #'
 #' @examples
 .calculate_nhoodnhood_significance_oneway <- function(milos,
+                                                      dt_sims_true,
+                                                      n_scrambles,
                                                       name_intact = "milo_intact",
                                                       name_scramble = "milo_scramble",
-                                                      dt_sims_true,
                                                       col_scramble_label = "false",
-                                                      n_scrambles,
                                                       assay = "logcounts",
                                                       sim_method = "spearman",
-                                                      adjust,
-                                                      alpha_adjust) {
+                                                      adjust="holm",
+                                                      alpha_adjust=0.05) {
   # Generate null (scrambled) distribution of similarities, upsample rare labels through resampling weights
   l_sims_scrambled <- list()
 

@@ -34,14 +34,14 @@ test_that(
       dt_sims_true,
       dt_sims_scrambled,
       alpha = 0.05,
-      adjust = "fdr",
+      adjust = "holm",
       col_sim = "sim",
       col_group = "nhoods1"
     )
 
+    expect_is(out, "data.table")
     # out has its key set to nhoods1, need to set same key for comparing in tests
     setkeyv(dt_sims_true, "nhoods1")
-
     old_columns <- colnames(dt_sims_true)
     new_columns <- setdiff(colnames(out), colnames(dt_sims_true))
     expect_true(ncol(out)==ncol(dt_sims_true)+2)

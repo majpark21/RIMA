@@ -8,7 +8,7 @@
   dt_sim_true,
   dt_sim_scrambled,
   alpha = 0.05,
-  adjust = "fdr",
+  adjust = "holm",
   col_sim = "sim",
   col_group = NULL
 )

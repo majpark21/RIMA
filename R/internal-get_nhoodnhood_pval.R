@@ -13,7 +13,7 @@
 .get_nhoodnhood_pval <- function(dt_sim_true,
                                  dt_sim_scrambled,
                                  alpha = 0.05,
-                                 adjust = "fdr",
+                                 adjust = "holm",
                                  col_sim = "sim",
                                  col_group = NULL) {
   #' Basic function applied to each group to compare true similarities to scrambled similarities. From this returns pvalues, or the significance cutoff of similarity.
@@ -29,7 +29,7 @@
   .compare_true_scrambled <- function(v_sim_true,
                                       v_sim_scrambled,
                                       alpha = 0.05,
-                                      adjust = "fdr",
+                                      adjust = "holm",
                                       return_cutoff = FALSE) {
     # Special case speed-up: no need to calculate costly ecdf
     if ((return_cutoff) & (is.null(adjust))) {

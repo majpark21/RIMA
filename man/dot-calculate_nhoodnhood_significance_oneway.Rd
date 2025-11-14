@@ -7,27 +7,27 @@
 \usage{
 .calculate_nhoodnhood_significance_oneway(
   milos,
+  dt_sims_true,
+  n_scrambles,
   name_intact = "milo_intact",
   name_scramble = "milo_scramble",
-  dt_sims_true,
   col_scramble_label = "false",
-  n_scrambles,
   assay = "logcounts",
   sim_method = "spearman",
-  adjust,
-  alpha_adjust
+  adjust = "holm",
+  alpha_adjust = 0.05
 )
 }
 \arguments{
 \item{milos}{A list of 2 Milo objects, the 1st one is kept intact, the 2nd one is scrambled.}
 
-\item{name_intact, name_scramble}{Name given to the column with neighbourhoods from 1st (resp. 2nd) Milo object.}
-
 \item{dt_sims_true}{A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This contains the similarity values between intact neighbourhoods.}
 
-\item{col_scramble_label}{The name of a column in the 2nd Milo's colData. Label frequencies are estimated from this column and used in the scrambling process to weight the sampling probability of each cell.. Cells with most common samples are less likely to be sampled.}
-
 \item{n_scrambles}{Number of rounds of cell resampling.}
+
+\item{name_intact, name_scramble}{Name given to the column with neighbourhoods from 1st (resp. 2nd) Milo object.}
+
+\item{col_scramble_label}{The name of a column in the 2nd Milo's colData. Label frequencies are estimated from this column and used in the scrambling process to weight the sampling probability of each cell.. Cells with most common samples are less likely to be sampled.}
 
 \item{assay}{Assay from milos from which to calculate the neighbourhood expression.}
 
@@ -36,6 +36,9 @@
 \item{adjust}{Method to correct pvalues for multiple testing. If NULL does not do pvalue correction. Must be a valid method in 'p.adjust'.}
 
 \item{alpha_adjust}{Level of significance to call significant edges. Float between 0 and 1.}
+}
+\value{
+A data.table with 3 columns
 }
 \description{
 This function does the scrambling of nhoods, and calculates the pvalues against scrambled similarities. Runs only in one direction, i.e. one of the Milos is kept intact, the other is scrambled.
