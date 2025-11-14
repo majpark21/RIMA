@@ -52,6 +52,7 @@ calculate_nhoodnhood_significance <- function(milos,
     )
     ls_args <- append(ls_args, ls_args_common)
     dt_sims_withSignif <- do.call(.calculate_nhoodnhood_significance_oneway, ls_args)
+    dt_sims_withSignif[, is_significant := pval_adjusted <= alpha_adjust]
   }
   # Right -> Left: 2nd Milo intact, 1st Milo scrambled ============================================
   else if (direction == 'rl') {
@@ -64,6 +65,7 @@ calculate_nhoodnhood_significance <- function(milos,
     )
     ls_args <- append(ls_args, ls_args_common)
     dt_sims_withSignif <- do.call(.calculate_nhoodnhood_significance_oneway, ls_args)
+    dt_sims_withSignif[, is_significant := pval_adjusted <= alpha_adjust]
   }
   # Both directions: does lr, then rl, and combine the pvalues from both ==========================
   else if (direction == 'b') {

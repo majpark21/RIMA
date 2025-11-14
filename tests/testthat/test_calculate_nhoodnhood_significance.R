@@ -49,8 +49,8 @@ test_that(
     test_output <- function(out, dt_sims_true){
       old_columns <- colnames(dt_sims_true)
       new_columns <- setdiff(colnames(out), colnames(dt_sims_true))
-      expect_true(ncol(out)==ncol(dt_sims_true)+2)
-      expect_equal(new_columns, c("pval", "pval_adjusted"))
+      expect_true(ncol(out)==ncol(dt_sims_true)+3)
+      expect_equal(new_columns, c("pval", "pval_adjusted", "is_significant"))
       expect_equal(dt_sims_true[, ..old_columns], out[, ..old_columns])
       expect_is(out$pval, "numeric")
       expect_is(out$pval_adjusted, "numeric")
