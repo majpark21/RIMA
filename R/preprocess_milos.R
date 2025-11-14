@@ -79,9 +79,9 @@ preprocess_milos <- function(milo1,
   }
 
 
-  # Calculate nhoods similarities -----------------
+  # Calculate nhoods expression -----------------
   if (calculate_expression) {
-    cat("Calculate nhoods similarities...\n")
+    cat("Calculate nhoods expression...\n")
     if (all(dim(milo1@nhoodExpression) == c(1, 1))) {
       milo1 <- calcNhoodExpression(milo1, assay, subset.row = NULL)
     }
