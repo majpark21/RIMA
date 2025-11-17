@@ -7,7 +7,8 @@
 match_nhoods(
   dt_significant_nhoodnhood,
   filter_insignificant = TRUE,
-  col_significance = "is_significant"
+  col_significance = "is_significant",
+  return_sim = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ match_nhoods(
 \item{filter_insignificant}{Logical, whether to filter the rows in 'dt_significant_nhoodnhood', where the column 'col_significance' is not TRUE.}
 
 \item{col_significance}{If filter_insignificant is TRUE; name of a logical column in dt_significant_nhoodnhood used to filter the rows where its value is TRUE.}
+
+\item{return_sim}{Logical. If TRUE, add a 3rd column to the output that contains the similarity value of the nhood-nhood pair.}
 }
 \value{
 A data.table with 2 columns containing the nhood-nhood matching.

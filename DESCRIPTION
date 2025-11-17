@@ -22,4 +22,6 @@ Imports:
     SingleCellExperiment,
     Matrix,
     igraph,
-    testthat
+    testthat,
+    rdist,
+    ggplot2
