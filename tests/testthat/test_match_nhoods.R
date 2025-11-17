@@ -23,7 +23,7 @@ test_that(
     )
     dt_nhoodnhood_sig <- dt_nhoodnhood_sig[is_significant==TRUE]
 
-    out <- match_nhoods(dt_nhoodnhood_sig)
+    out <- match_nhoods(dt_nhoodnhood_sig, return_sim = FALSE)
 
     expect_length(colnames(out), 2)
     expect_equal(uniqueN(out[[1]]), nrow(out))

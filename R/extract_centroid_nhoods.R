@@ -10,14 +10,18 @@
 #'
 #' @examples
 extract_centroid_nhoods <- function(milo, dimred="UMAP", use_indexCell=T, sel_dims=c(1,2)){
-  mat <- reducedDim(milo, dimred)[, sel_dims]
+  .nhoodCells <- function(milo){
+    l_nhood_cells <- apply(nhoods(milo), 2, function(x){names(x)[x==1]})
+    return(l_nhood_cells)
+  }
 
+  mat <- SingleCellExperiment::reducedDim(milo, dimred)[, sel_dims]
   if(use_indexCell){
     l_nhood_centers <- lapply(milo@nhoodIndex, function(x) colnames(milo)[x])
     names(l_nhood_centers) <- unlist(milo@nhoodIndex)
     l_nhood_centers <- lapply(l_nhood_centers, function(x) mat[x,])
   } else {
-    l_nhood_cells <- nhoodCells(milo)
+    l_nhood_cells <- .nhoodCells(milo)
     l_nhood_coords <- lapply(l_nhood_cells, function(x) mat[x,])
     l_nhood_avg <- lapply(l_nhood_coords, function(x) matrix(colMeans(x), ncol = 2))
 

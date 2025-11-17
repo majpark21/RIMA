@@ -2,7 +2,7 @@
 #'
 #' @param dt_significant_nhoodnhood A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This should only contain the significant nhood-nhood edges to be used for matching.
 #' @param col_sim Column name of dt_significant_nhoodnhood containing the similarity values.
-#' @param col_nhoods1 Column name of dt_significant_nhoodnhood containing the names of the 1st (resp. 2nd) sets of nhoods to be matched. If NULL, automatically set to the 1st (resp. 2nd) column name of dt_significant_nhoodnhood
+#' @param col_nhoods1,col_nhoods2 Column name of dt_significant_nhoodnhood containing the names of the 1st (resp. 2nd) sets of nhoods to be matched. If NULL, automatically set to the 1st (resp. 2nd) column name of dt_significant_nhoodnhood
 #' @param return_sim Logical. If TRUE, add a 3rd column to the output that contains the similarity value of the nhood-nhood pair.
 #'
 #' @returns A data.table with 2 columns where each row represent a pair of matched neighbourhoods.

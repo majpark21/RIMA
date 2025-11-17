@@ -21,7 +21,7 @@ match_nhoods(
 \item{return_sim}{Logical. If TRUE, add a 3rd column to the output that contains the similarity value of the nhood-nhood pair.}
 }
 \value{
-A data.table with 2 columns containing the nhood-nhood matching.
+A data.table with 2 columns containing the nhood-nhood matching. An additional column is present if return_sim is TRUE.
 }
 \description{
 Matches neighbourhoods with Weighted Bipartite Graph Matching

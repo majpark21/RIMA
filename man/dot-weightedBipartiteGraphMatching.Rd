@@ -17,7 +17,7 @@
 
 \item{col_sim}{Column name of dt_significant_nhoodnhood containing the similarity values.}
 
-\item{col_nhoods1}{Column name of dt_significant_nhoodnhood containing the names of the 1st (resp. 2nd) sets of nhoods to be matched. If NULL, automatically set to the 1st (resp. 2nd) column name of dt_significant_nhoodnhood}
+\item{col_nhoods1, col_nhoods2}{Column name of dt_significant_nhoodnhood containing the names of the 1st (resp. 2nd) sets of nhoods to be matched. If NULL, automatically set to the 1st (resp. 2nd) column name of dt_significant_nhoodnhood}
 
 \item{return_sim}{Logical. If TRUE, add a 3rd column to the output that contains the similarity value of the nhood-nhood pair.}
 }

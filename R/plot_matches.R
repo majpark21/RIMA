@@ -3,7 +3,7 @@
 #' @param milos List of 2 Milo objects.
 #' @param dt_match A data.table with 3 columns containing the nhood-nhood matching and similarities. Typically generated with match_nhoods.
 #' @param cols_color A vector of length 2 containing the names of the columns in colData used to color the neighbourhoods. If NULL, no coloring.
-#' @param dt_palette A data.table with 2 columns, one column must be named after cols_color and contains the neighbourhoods labels, the second column (named 'color') contains a HEX color code.
+#' @param dt_palette NULL or a data.table with 2 columns, one column must be named after cols_color and contains the neighbourhoods labels, the second column (named 'color') contains a HEX color code.
 #' @param dimred Which reduced dimensions to use?
 #' @param args_process_coordinates A list of 2 lists with preprocessing instructions for the neighbourhoods' coordinates. The nested lists must contain an entry called 'angle' with a scalar, and an entry called 'shift' with a numeric vector of length 2. The shift vector regulates the amount of horizontal and vertical shift between the 2 atlases to avoid overlapping. The angle is useful to rotate the atlases and disentangle matches lines.
 #' @param add_non_matched_category not implemented yet
