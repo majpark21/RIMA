@@ -159,3 +159,10 @@ p
 
 
 ## Trimming maps
+
+```{r fig.height=8, fig.width=10, message=FALSE}
+RIMA::plot_trimming_map(milos, dt_sims_withSignif, cols_label = c("celltype", "celltype")) + labs(x="Celltype rabbit", y="Celltype mouse")
+RIMA::plot_trimming_map(milos, dt_sims_withSignif, cols_label = c("celltype", "stage")) + labs(x="Stage rabbit", y="Celltype mouse")
+```
+
+

@@ -24,4 +24,5 @@ Imports:
     igraph,
     testthat,
     rdist,
-    ggplot2
+    ggplot2,
+    viridis
