@@ -131,6 +131,11 @@ dt_sims_withSignif <- RIMA::calculate_nhoodnhood_significance(
 head(dt_sims_withSignif)
 ```
 
+### Inspect the effect of trimming insignificant nhood-nhood edges
+```{r fig.height=8, fig.width=10, message=FALSE}
+RIMA::plot_trimming_map(milos, dt_sims_withSignif, cols_label = c("celltype", "celltype")) + labs(x="Celltype rabbit", y="Celltype mouse")
+RIMA::plot_trimming_map(milos, dt_sims_withSignif, cols_label = c("celltype", "stage")) + labs(x="Stage rabbit", y="Celltype mouse")
+```
 
 ## Match the significant neighbourhood-neighbourhood pairs
 
@@ -141,7 +146,7 @@ head(dt_match)
 
 
 
-# Inspect results
+# Inspect matching results
 
 ## Side-by-side embeddings with matches
 
@@ -153,16 +158,19 @@ milos <- lapply(milos, function(x) {
 ```
 
 ```{r fig.width=6, fig.height=5}
-p <- plot_matches(milos, dt_match, dt_palette = dt_ct_palette, cols_color = c("celltype", "celltype")) + guides(fill="none")
+p <- RIMA::plot_matches_embed(milos, dt_match, dt_palette = dt_ct_palette, cols_color = c("celltype", "celltype")) + guides(fill="none")
 p
 ```
 
 
-## Trimming maps
+## Annotations of matched neighbourhoods
 
-```{r fig.height=8, fig.width=10, message=FALSE}
-RIMA::plot_trimming_map(milos, dt_sims_withSignif, cols_label = c("celltype", "celltype")) + labs(x="Celltype rabbit", y="Celltype mouse")
-RIMA::plot_trimming_map(milos, dt_sims_withSignif, cols_label = c("celltype", "stage")) + labs(x="Stage rabbit", y="Celltype mouse")
+```{r message=F, fig.height=8, fig.width=10}
+RIMA::plot_matches_map(milos, dt_match, cols_label = c("celltype", "celltype"), transform="log10")  + labs(x="Celltype rabbit", y="Celltype mouse")
+RIMA::plot_matches_map(milos, dt_match, cols_label = c("celltype", "stage"), cluster_cols = FALSE)  + labs(x="Stage rabbit", y="Celltype mouse")
 ```
+
+
+# Identify conserved gene expression with CoPE score
 
 

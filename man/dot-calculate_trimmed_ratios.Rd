@@ -18,7 +18,7 @@
 \item{cols_label}{Vector of length 2, names of columns in the Milo's colData. Neighbourhoods will be annotated accroding to these columns and the number of (trimmed) edges will be calculated between the annotations.}
 }
 \value{
-A data.table with the number of (trimmed) edges.
+A data.table with 2 columns indicating the pair of neighbourhoods' labels, a column indication the total number of edges linking these pairs, a column with the number of significant edges, a column with the ratio of these 2.
 }
 \description{
 Calculate the number of nhood-nhood edges that were trimmed after comparing true similarities to scrambled ones.

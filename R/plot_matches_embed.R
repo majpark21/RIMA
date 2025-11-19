@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-plot_matches <- function(milos,
+plot_matches_embed <- function(milos,
                          dt_match,
                          cols_color = c("celltype", "celltype"),
                          dt_palette = NULL,

@@ -4,7 +4,7 @@
 #' @param dt_sims_withSignif A data.table with at least 3 columns. Each row represents a pair of nhoods across the Milos (column 1 and 2). A logical column named 'is_significant'
 #' @param cols_label Vector of length 2, names of columns in the Milo's colData. Neighbourhoods will be annotated accroding to these columns and the number of (trimmed) edges will be calculated between the annotations.
 #'
-#' @returns A data.table with the number of (trimmed) edges.
+#' @returns A data.table with 2 columns indicating the pair of neighbourhoods' labels, a column indication the total number of edges linking these pairs, a column with the number of significant edges, a column with the ratio of these 2.
 #'
 .calculate_trimmed_ratios <- function(milos,
                                       dt_sims_withSignif,
@@ -28,7 +28,7 @@
     by.y = "Nhood_center",
     suffixes = c(paste0("_", name1), paste0("_", name2))
   )
-  # Use consistent naming
+  # Use consistent naming, mimic suffixes effect if cols are different
   if(cols_label[1] != cols_label[2]){
     setnames(
       dt_edges,
