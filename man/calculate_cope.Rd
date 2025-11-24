@@ -4,14 +4,14 @@
 \alias{calculate_cope}
 \title{Correlation of Paired Expression}
 \usage{
-calculate_cope(milos, dt_match, genes, method = "spearman")
+calculate_cope(milos, dt_match, genes = NULL, method = "spearman")
 }
 \arguments{
 \item{milos}{List of 2 Milo objects with a filled nhoodExpression slot.}
 
 \item{dt_match}{A data.table with 2 columns containing the nhood-nhood matching. The first (resp. second) column contains the names of nhoods in the 1st (resp. 2nd) Milo object.}
 
-\item{genes}{A vector of genes for which to calculate the CoPE score. The genes must be present in both Milo's rownames.}
+\item{genes}{A vector of genes for which to calculate the CoPE score. The genes must be present in both Milo's rownames. If NULL, uses all available genes.}
 
 \item{method}{Correlation method. Must be one of c('pearson', 'kendall', 'spearman').}
 }

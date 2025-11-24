@@ -10,9 +10,11 @@
 #' @examples
 plot_paired_expression <- function(milos, dt_match, genes){
   dt_plot <- RIMA::get_paired_expression(milos, dt_match, genes)
+  # Plot genes in the same order as they were passed
+  dt_plot[, gene := factor(gene, levels=genes)]
   p <- ggplot(dt_plot, aes(x=expression_1, y=expression_2)) +
     geom_point() +
-    facet_wrap("gene") +
+    facet_wrap("gene", scales="free") +
     theme_bw()
 
   return(p)

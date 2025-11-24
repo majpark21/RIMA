@@ -3,16 +3,19 @@
 #' Calculate the correlation of gene expression values between pairs of matched neighbourhoods
 #' @param milos List of 2 Milo objects with a filled nhoodExpression slot.
 #' @param dt_match A data.table with 2 columns containing the nhood-nhood matching. The first (resp. second) column contains the names of nhoods in the 1st (resp. 2nd) Milo object.
-#' @param genes A vector of genes for which to calculate the CoPE score. The genes must be present in both Milo's rownames.
+#' @param genes A vector of genes for which to calculate the CoPE score. The genes must be present in both Milo's rownames. If NULL, uses all available genes.
 #' @param method Correlation method. Must be one of c('pearson', 'kendall', 'spearman').
 #'
 #' @returns A data table with 2 columns. Each row contains the gene name and its associated cope score.
 #' @export
 #'
 #' @examples
-calculate_cope <- function(milos, dt_match, genes, method="spearman"){
+calculate_cope <- function(milos, dt_match, genes=NULL, method="spearman"){
   if (!method %in% c("pearson", "kendall", "spearman")) {
     stop("'method' must be one of: 'pearson', 'kendall', 'spearman'.")
+  }
+  if(is.null(genes)){
+    genes <- rownames(milos[[1]])
   }
   # Subset to genes of interest and reorder the nhoods according to matches, transpose to put genes in columns
   nhoods1 <- nhoodExpression(milos[[1]])

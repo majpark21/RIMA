@@ -173,4 +173,19 @@ RIMA::plot_matches_map(milos, dt_match, cols_label = c("celltype", "stage"), clu
 
 # Identify conserved gene expression with CoPE score
 
+```{r warning=F}
+# Set genes to NULL to calculate CoPE of all the genes
+dt_copes <- RIMA::calculate_cope(milos, dt_match, genes = NULL)
+
+# Most and least conserved gene expression across matched neighbourhoods
+setorder(dt_copes, cope)
+top_genes <- tail(dt_copes[!is.na(cope), gene], 3)
+worst_genes <- head(dt_copes[!is.na(cope), gene], 3)
+
+dt_copes[gene %in% c(top_genes, worst_genes)]
+```
+
+```{r warning=F}
+RIMA::plot_paired_expression(milos, dt_match, c(top_genes, worst_genes)) + scale_x_log10() + scale_y_log10() + labs(x="Expression mouse [log10]", y="Expression rabbit [log10]")
+```
 
