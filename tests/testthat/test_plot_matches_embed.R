@@ -1,5 +1,5 @@
 test_that(
-  "plot_matches returns a ggplot object with points and lines representing the matches.",
+  "plot_matches_embed returns a ggplot object with points and lines representing the matches.",
   {
     milo1 <- make_test_milo()
     milo2 <- make_test_milo()
@@ -18,7 +18,7 @@ test_that(
     dt_significant_nhoodnhood <- dt_sims_withSignif[is_significant==TRUE]
     dt_match <- RIMA::match_nhoods(dt_sims_withSignif[is_significant == TRUE])
 
-    out <- plot_matches(milos, dt_match, dt_palette = NULL, cols_color = NULL, dimred="PCA")
+    out <- RIMA::plot_matches_embed(milos, dt_match, dt_palette = NULL, cols_color = NULL, dimred="PCA")
     expect_is(out, "ggplot")
   }
 )

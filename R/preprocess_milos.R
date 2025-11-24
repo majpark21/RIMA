@@ -4,7 +4,7 @@
 #' Rownames (i.e. features/gene names) must be specified to ensure that the right features
 #' are compared; feature mapping between the two objects can be provided, see 'dt_features'.
 #' @param assay Assay to calculate neighbourhoods' expression.
-#' @param calculate_similarities Whether to calculate neighbourhood's expression. Needed for downstream steps.
+#' @param calculate_expression Whether to calculate neighbourhood's expression. Needed for downstream steps.
 #' @param dt_features DataFrame with 2 columns that maps features across both milos in case the features are not fully overlapping.
 #' The 1st (resp. 2nd) column refers to rownames in milo1 (resp. milo2).
 #' This is useful for example to use orthologs to compare atlases of different species.

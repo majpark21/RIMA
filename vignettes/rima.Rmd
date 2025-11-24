@@ -61,6 +61,7 @@ suppressPackageStartupMessages({
   library(miloR)
   library(data.table)
   library(ggplot2)
+  library(scater)
 })
 set.seed(7)
 

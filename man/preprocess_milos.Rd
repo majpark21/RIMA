@@ -19,13 +19,13 @@ are compared; feature mapping between the two objects can be provided, see 'dt_f
 
 \item{assay}{Assay to calculate neighbourhoods' expression.}
 
+\item{calculate_expression}{Whether to calculate neighbourhood's expression. Needed for downstream steps.}
+
 \item{dt_features}{DataFrame with 2 columns that maps features across both milos in case the features are not fully overlapping.
 The 1st (resp. 2nd) column refers to rownames in milo1 (resp. milo2).
 This is useful for example to use orthologs to compare atlases of different species.
 This can also be used to perform the matching on a subset of features.
 If not specified, rownames must fully match between both milos.}
-
-\item{calculate_similarities}{Whether to calculate neighbourhood's expression. Needed for downstream steps.}
 }
 \value{
 A list of 2 Milo objects, with the same row names.

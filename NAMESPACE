@@ -1,5 +1,5 @@
 exportPattern("^[[:alpha:]]+")
-importFrom("stats", "cor", "ecdf", "p.adjust", "quantile")
+importFrom("stats", "cor", "ecdf", "p.adjust", "quantile", "as.formula", "dist", "hclust")
 importFrom("utils", "setTxtProgressBar", "txtProgressBar")
 import(data.table)
 import(ggplot2)

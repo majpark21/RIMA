@@ -34,7 +34,7 @@
   l_sims_scrambled <- list()
 
   # Weight is inversely proportional to the number of cells of the corresponding celltype
-  weight_cells <- .scramble_calculateWeights(milo = milos[[2]], col_scramble = col_scramble_label)
+  weight_cells <- .scramble_calculateWeights(milo = milos[[2]], col_scramble_label = col_scramble_label)
   # Generate scrambled nhood average expressions
   cat("Generate scrambled neighbourhoods...")
   l_scrambled_assay_nhoods <- .scramble_nhoodExpression(
