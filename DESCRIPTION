@@ -16,6 +16,7 @@ LazyData: true
 RoxygenNote: 7.3.3
 Suggests: knitr, rmarkdown, BiocStyle, scater
 VignetteBuilder: knitr
+biocViews:
 Imports:
     data.table,
     miloR,
