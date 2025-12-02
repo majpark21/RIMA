@@ -92,7 +92,7 @@ plot_matches_map(milos, dt_match, cols_label = c("celltype", "stage"))
 
 # Example downstream analysis: Find the 3 genes with the most conserved expression across matches
 dt_cope <- calculate_cope(milos, dt_match, genes = NULL)
-setorder(dt_cope, cope)
+dt_cope <- dt_cope[order(dt_cope$cope), ]
 plot_paired_expression(milos, dt_match, genes = tail(dt_cope$gene, 3))
 ```
 
