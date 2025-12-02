@@ -1,14 +1,27 @@
-#' Extract neighbourhood coordinates from reduced dimension for visualisation
+#' Extract Neighbourhood Centroids Coordinates from Reduced Dimensions
+#'
+#' Extracts or calculates neighbourhood centroid coordinates from a reduced dimension
+#' representation for visualization purposes.
 #'
 #' @param milo A Milo object.
-#' @param dimred The name of the reduced dimension.
-#' @param use_indexCell Logical. If TRUE, use the coordinates of the neighbourhood index cells to represent the neighbourhoods. If FALSE, calculate the average coordinates of the individual cells (slower).
-#' @param sel_dims Numeric of length 2. Which 2 coordinates to use.
+#' @param dimred Character string specifying the name of the reduced dimension to use.
+#'   Default is \code{"UMAP"}.
+#' @param use_indexCell Logical. If \code{TRUE}, uses the coordinates of the neighbourhood's
+#'   index cells to represent the neighbourhoods (faster).
+#'   If \code{FALSE}, calculates the average coordinates of all cells in each neighbourhood (slower).
+#'   Default is \code{TRUE}.
+#' @param sel_dims Numeric vector of length 2 specifying which 2 dimensions to extract.
+#'   Default is \code{c(1, 2)}.
 #'
-#' @returns A data.table with 3 columns, indicating the nhood and its 2 coordinates in the reduced dimension.
+#' @returns A data.table with 3 columns:
+#'   \item{nhood}{Neighbourhood identifier.}
+#'   \item{V1}{First dimension coordinate.}
+#'   \item{V2}{Second dimension coordinate.}
+#'
 #' @export
 #'
 #' @examples
+#' # Not run: extract_centroid_nhoods(milo, dimred = "UMAP", use_indexCell = TRUE)
 extract_centroid_nhoods <- function(milo, dimred="UMAP", use_indexCell=T, sel_dims=c(1,2)){
   .nhoodCells <- function(milo){
     l_nhood_cells <- apply(nhoods(milo), 2, function(x){names(x)[x==1]})

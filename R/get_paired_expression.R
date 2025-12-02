@@ -1,13 +1,24 @@
-#' Plot paired expression
+#' Extract Paired Expression Values
+#'
+#' Extracts expression values for specified genes from pairs of matched neighbourhoods
+#' across two datasets.
 #'
 #' @param milos List of 2 Milo objects with a filled nhoodExpression slot.
-#' @param dt_match A data.table with 2 columns containing the nhood-nhood matching. The first (resp. second) column contains the names of nhoods in the 1st (resp. 2nd) Milo object.
-#' @param genes A vector of gene names. The genes must be present in both Milo's rownames. If NULL, uses all available genes.
+#' @param dt_match A data.table with 2 columns containing the nhood-nhood matching.
+#'   The first column contains neighbourhood names from the 1st Milo object,
+#'   the second column contains neighbourhood names from the 2nd Milo object.
+#' @param genes A character vector of gene names. Genes must be present in both Milo objects' rownames.
+#'   If \code{NULL}, uses all available genes.
 #'
-#' @returns A data.table
+#' @returns A data.table with the following columns:
+#'   \item{gene}{Gene name.}
+#'   \item{expression_1}{Expression value in the 1st Milo object's neighbourhood.}
+#'   \item{expression_2}{Expression value in the 2nd Milo object's neighbourhood.}
+#'
 #' @export
 #'
 #' @examples
+#' # Not run: paired_expr <- get_paired_expression(milos, dt_match)
 get_paired_expression <- function(milos, dt_match, genes=NULL){
   if(is.null(genes)){
     genes <- rownames(milos[[1]])

@@ -1,15 +1,38 @@
-#' Calculate the significance of nhood-nhood similarity values, by comparing them to similarities between original and scrambled nhoods
+#' Calculate P-Values for Neighbourhood-Neighbourhood Similarities
 #'
-#' First estimates null population by calculating ECDF of scrambled similarities. True similarities are compared to this null distribution and assigned a pvalue. The pvalue represent the proportion of scrambled similarities that are greater than the true similarity.
-#' @param dt_sim_true,dt_sim_scrambled data.table with 3 columns, as returned by calculate_similarities(). The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. dt_sim_true holds the similarities between original neighbourhoods, dt_sim_scrambled holds the similarities between original and scrambled neighbourhoods.
-#' @param alpha  Level of significance to call significant edges. Float between 0 and 1.
-#' @param adjust Method to correct pvalues for multiple testing. If NULL does not do pvalue correction. Must be a valid method in 'p.adjust'.
-#' @param col_sim Name of the column holding the similarity values in dt_sim_true and dt_sim_scrambled.
-#' @param col_group Name of a column in dt_sim_true. Specifies the groups that are used to define the null population in pvalue calculation. If named after one of the two first columns containing neighbourhood names, the pvalues will be estimated for each neighbourhood individually. Specifically, this means that all true nhood1-nhoodX similarity values will be compared to the similarity values of all scrambled pairs involving nhood1 (i.e. nhood1-scrambled1, nhood1-scrambled2...). If NULL, the scrambled similarities across every pair (not just those containing nhood1) will be used to estimate the NULL population (not recommended).
+#' Internal function that calculates the statistical significance of neighbourhood-neighbourhood
+#' similarity values by comparing them to similarities between original and scrambled neighbourhoods.
 #'
-#' @returns A data.table based on 'dt_sim_true', with 2 extra columns representing the pvalue and the adjusted pvalue associated with each similarity value.
+#' @param dt_sim_true,dt_sim_scrambled data.table with 3 columns as returned by \code{calculate_similarities()}.
+#'   The first 2 columns indicate neighbourhood pairs, the third column (\code{col_sim}) indicates similarity values.
+#'   \code{dt_sim_true} contains similarities between original neighbourhoods,
+#'   \code{dt_sim_scrambled} contains similarities between original and scrambled neighbourhoods.
+#' @param alpha Numeric. Significance level for calling edges significant. Float between 0 and 1.
+#'   Default is 0.05.
+#' @param adjust Character string or \code{NULL}. Method for p-value adjustment.
+#'   Must be a valid method in \code{p.adjust()} or \code{NULL} for no adjustment.
+#'   Default is "holm".
+#' @param col_sim Character string. Name of the column holding similarity values in both data.tables.
+#'   Default is "sim".
+#' @param col_group Character string or \code{NULL}. Name of a column in \code{dt_sim_true}
+#'   specifying groups for null population estimation. If set to one of the neighbourhood columns,
+#'   p-values are estimated separately for each neighbourhood (comparing scrambled pairs
+#'   involving that specific neighbourhood). If \code{NULL}, uses all scrambled similarities.
+#'   Default is \code{NULL}.
 #'
-#' @examples
+#' @details
+#' The function:
+#' 1. Estimates a null distribution using the empirical CDF of scrambled similarities.
+#' 2. Assigns empirical p-values to true similarities by comparing to the null distribution.
+#' 3. Applies multiple testing correction if specified.
+#' P-values represent the proportion of scrambled similarities that are >= true similarity.
+#'
+#' @returns A data.table based on \code{dt_sim_true} with additional columns:
+#'   \item{pval}{Empirical p-value for each neighbourhood pair.}
+#'   \item{pval_adjusted}{Adjusted p-value after multiple testing correction.}
+#'
+#' @keywords internal
+#' @noRd
 .get_nhoodnhood_pval <- function(dt_sim_true,
                                  dt_sim_scrambled,
                                  alpha = 0.05,

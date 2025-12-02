@@ -1,12 +1,23 @@
-#' Calculate neighbourhood-neighbourhood similarities
+#' Calculate Neighbourhood-Neighbourhood Similarities
 #'
-#' @param milos List of 2 Milo objects with a filled nhoodExpression slot. Alternatively, can pass a list of 2 matrices representing neighbourhood expression.
-#' @param method Similarity metric. Must be one of c('pearson', 'kendall', 'spearman').
+#' Calculates pairwise similarity scores between neighbourhoods across two datasets
+#' based on their expression profiles.
 #'
-#' @returns A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value.
+#' @param milos List of 2 Milo objects with a filled nhoodExpression slot,
+#'   or alternatively a list of 2 matrices representing neighbourhood expression.
+#' @param method Character string specifying the similarity metric.
+#'   Must be one of \code{"pearson"}, \code{"kendall"}, or \code{"spearman"}.
+#'   Default is \code{"spearman"}.
+#'
+#' @returns A data.table with 3 columns:
+#'   \item{nhoods1}{Neighbourhood name from the 1st Milo object.}
+#'   \item{nhoods2}{Neighbourhood name from the 2nd Milo object.}
+#'   \item{sim}{Similarity value between the pair of neighbourhoods.}
+#'
 #' @export
 #'
 #' @examples
+#' # Not run: calculate_similarities(milos, method = "spearman")
 calculate_similarities <- function(milos, method = "spearman") {
   # require(data.table)
   if (length(milos) != 2) {

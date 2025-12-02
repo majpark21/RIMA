@@ -1,15 +1,27 @@
-#' Correlation of Paired Expression
+#' Calculate Correlation of Paired Expression (CoPE)
 #'
-#' Calculate the correlation of gene expression values between pairs of matched neighbourhoods
+#' Calculates the correlation of gene expression values between pairs of matched neighbourhoods
+#' to identify conserved genes across datasets.
+#'
 #' @param milos List of 2 Milo objects with a filled nhoodExpression slot.
-#' @param dt_match A data.table with 2 columns containing the nhood-nhood matching. The first (resp. second) column contains the names of nhoods in the 1st (resp. 2nd) Milo object.
-#' @param genes A vector of genes for which to calculate the CoPE score. The genes must be present in both Milo's rownames. If NULL, uses all available genes.
-#' @param method Correlation method. Must be one of c('pearson', 'kendall', 'spearman').
+#' @param dt_match A data.table with 2 columns containing the nhood-nhood matching.
+#'   The first column contains neighbourhood names from the 1st Milo object,
+#'   the second column contains neighbourhood names from the 2nd Milo object.
+#' @param genes A character vector of gene names for which to calculate the CoPE score.
+#'   Genes must be present in both Milo objects' rownames.
+#'   If \code{NULL}, uses all available genes.
+#' @param method Character string specifying the correlation method.
+#'   Must be one of \code{"pearson"}, \code{"kendall"}, or \code{"spearman"}.
+#'   Default is \code{"spearman"}.
 #'
-#' @returns A data table with 2 columns. Each row contains the gene name and its associated cope score.
+#' @returns A data.table with 2 columns:
+#'   \item{gene}{Gene name.}
+#'   \item{cope}{Correlation of paired expression score.}
+#'
 #' @export
 #'
 #' @examples
+#' # Not run: calculate_cope(milos, dt_match, genes = c("gene1", "gene2"))
 calculate_cope <- function(milos, dt_match, genes=NULL, method="spearman"){
   if (!method %in% c("pearson", "kendall", "spearman")) {
     stop("'method' must be one of: 'pearson', 'kendall', 'spearman'.")
