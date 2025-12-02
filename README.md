@@ -123,6 +123,10 @@ RIMA::sce_mouse_gastrulation
 RIMA::sce_rabbit_gastrulation
 ```
 
+Both example datasets are small subsets of large gastrulation atlases, see:
+- Imaz-Rosshandler, Ivan, et al. "Tracking early mammalian organogenesis–prediction and validation of differentiation trajectories at whole organism scale." Development 151.3 (2024): dev201867.
+- Ton, Mai-Linh Nu, et al. "An atlas of rabbit development as a model for single-cell comparative genomics." Nature cell biology 25.7 (2023): 1061-1072.
+
 ## License
 
 RIMA is licensed under the GPL-3 License. See [LICENSE](LICENSE) for details.
