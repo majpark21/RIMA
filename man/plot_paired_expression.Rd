@@ -2,20 +2,28 @@
 % Please edit documentation in R/plot_paired_expression.R
 \name{plot_paired_expression}
 \alias{plot_paired_expression}
-\title{Plot paired expression}
+\title{Plot Paired Expression Across Matched Neighbourhoods}
 \usage{
 plot_paired_expression(milos, dt_match, genes)
 }
 \arguments{
 \item{milos}{List of 2 Milo objects with a filled nhoodExpression slot.}
 
-\item{dt_match}{A data.table with 2 columns containing the nhood-nhood matching. The first (resp. second) column contains the names of nhoods in the 1st (resp. 2nd) Milo object.}
+\item{dt_match}{A data.table with 2 columns containing the nhood-nhood matching.
+The first column contains neighbourhood names from the 1st Milo object,
+the second column contains neighbourhood names from the 2nd Milo object.}
 
-\item{genes}{A vector of genes names. The genes must be present in both Milo's rownames.}
+\item{genes}{A character vector of gene names to plot. Genes must be present in both
+Milo objects' rownames.}
 }
 \value{
-A ggplot object, where each gene is plotted as a scatterplot in its own facet.
+A \code{ggplot} object with scatter plots of paired expression values.
+  Each gene is displayed in a separate facet.
 }
 \description{
-Plot paired expression
+Creates scatter plots comparing gene expression values between pairs of matched neighbourhoods
+from two datasets. Each gene is displayed in a separate facet.
+}
+\examples{
+# Not run: plot_paired_expression(milos, dt_match, genes = c("gene1", "gene2", "gene3"))
 }

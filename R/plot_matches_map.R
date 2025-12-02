@@ -1,16 +1,29 @@
-#' Heatmap: what neighbourhoods were macthed together?
+#' Heatmap: Visualize Neighbourhood Matches by Annotation
 #'
-#' This function shows which neighbourhoods were matched by counting the number of matches linking neighbourhoods' annotations. The nhoods are first annotated, then the table of matches is checked against the annotations.
+#' Displays a heatmap showing which neighbourhoods were matched together, aggregated by
+#' their annotations. Neighbourhoods are annotated with \code{annotate_nhoods()}, and
+#' the number of matches between annotation labels is counted and displayed.
+#'
 #' @param milos A list of 2 Milo objects.
-#' @param dt_match A data.table with at least 3 columns. Each row represents a pair of nhoods across the Milos (column 1 and 2). A logical column named 'is_significant'
-#' @param cols_label Vector of length 2, names of columns in the Milo's colData. Neighbourhoods will be annotated accroding to these columns and the number of (trimmed) edges will be calculated between the annotations.
-#' @param cluster_rows,cluster_cols Logical, whether to reorder the rows and columns with hierarchical clustering.
-#' @param transform NULL or a character to transform the number of matches. Valid values include c("log10", "log1p", "sqrt"). See ?ggplot2::scale_fill_continuous for a full list.
+#' @param dt_match A data.table with at least 3 columns. Each row represents a matched pair
+#'   of neighbourhoods across the two Milos (first two columns contain neighbourhood identifiers).
+#' @param cols_label Character vector of length 2 specifying column names from the Milo's
+#'   \code{colData}. Neighbourhoods will be annotated according to these columns and the
+#'   number of matches will be calculated between the annotated groups.
+#' @param cluster_rows Logical. If \code{TRUE}, reorders rows using hierarchical clustering.
+#'   Default is \code{TRUE}.
+#' @param cluster_cols Logical. If \code{TRUE}, reorders columns using hierarchical clustering.
+#'   Default is \code{TRUE}.
+#' @param transform Character string or \code{NULL}. Specifies a transformation to apply to
+#'   match counts for visualization. Valid values include \code{"log10"}, \code{"log1p"}, \code{"sqrt"}.
+#'   See \code{?ggplot2::scale_fill_continuous} for more options. Default is \code{NULL}.
 #'
-#' @returns A ggplot object.
+#' @returns A \code{ggplot} object displaying a heatmap of neighbourhood match counts.
+#'
 #' @export
 #'
 #' @examples
+#' # Not run: plot_matches_map(milos, dt_match, cols_label = c("celltype", "celltype"))
 plot_matches_map <- function(milos,
                               dt_match,
                               cols_label = c("celltype", "celltype"),

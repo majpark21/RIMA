@@ -1,25 +1,39 @@
-#' Pipeline to give pvalue to nhood-nhood edges, oneway, not exposed to user
+#' Calculate Neighbourhood-Neighbourhood Significance (One Direction)
 #'
-#' This function does the scrambling of nhoods, and calculates the pvalues against scrambled similarities. Runs only in one direction, i.e. one of the Milos is kept intact, the other is scrambled.
-#' @param milos A list of 2 Milo objects, the 1st one is kept intact, the 2nd one is scrambled.
-#' @param name_intact,name_scramble Name given to the column with neighbourhoods from 1st (resp. 2nd) Milo object.
-#' @param col_scramble_label The name of a column in the 2nd Milo's colData. Label frequencies are estimated from this column and used in the scrambling process to weight the sampling probability of each cell.. Cells with most common samples are less likely to be sampled.
-#' @param n_scrambles Number of rounds of cell resampling.
-#' @param assay Assay from milos from which to calculate the neighbourhood expression.
-#' @param sim_method Similarity metric. Must be one of c('pearson', 'kendall', 'spearman').
-#' @param dt_sims_true A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This contains the similarity values between intact neighbourhoods.
-#' @param adjust Method to correct pvalues for multiple testing. If NULL does not do pvalue correction. Must be a valid method in 'p.adjust'.
-#' @param alpha_adjust Level of significance to call significant edges. Float between 0 and 1.
+#' Internal function that performs significance testing in one direction.
+#' This function does the scrambling of neighbourhoods and calculates p-values against
+#' scrambled similarities. It runs in only one direction (one Milo intact, the other scrambled).
+#'
+#' @param milos A list of 2 Milo objects. The 1st is kept intact, the 2nd is scrambled.
+#' @param name_intact,name_scramble Character strings specifying the column names for the
+#'   neighbourhoods from the 1st (intact) and 2nd (scrambled) Milo objects.
+#' @param col_scramble_label Character string specifying a column in the 2nd Milo's \\code{colData}.
+#'   Label frequencies are estimated from this column to weight cell sampling during scrambling.
+#'   Cells with common labels are less likely to be sampled. Use \"false\" for unweighted sampling.
+#' @param n_scrambles Integer. Number of rounds of cell resampling.
+#' @param assay Character string specifying the assay to use for calculating neighbourhood expression.
+#' @param sim_method Character string specifying the similarity metric.
+#'   Must be one of \"pearson\", \"kendall\", or \"spearman\".
+#' @param dt_sims_true A data.table with 3 columns as returned by \\code{calculate_similarities()}.
+#'   The first 2 columns indicate neighbourhood pairs, the third column (named \"sim\")
+#'   contains similarity values between intact neighbourhoods.
+#' @param adjust Character string specifying the p-value adjustment method.
+#'   Must be a valid method in \\code{p.adjust()}. If \\code{NULL}, no adjustment is applied.
+#' @param alpha_adjust Numeric. Significance level for calling edges significant.
 #'
 #' @details
-#' This function does:
-#' 1. Scramble neighbourhoods in the 2nd Milo, optionally taking labels to determine the resampling weights.
-#' 2. Calculate the similarities between true nhoods from the 1st Milo and the scrambled nhoods from the 2nd Milo
-#' 3. Calculate and adjust pvalues for each nhood-nhood edges by comparing dt_sims_true to the scrambled ones.
+#' This function:
+#' 1. Scrambles neighbourhoods in the 2nd Milo, optionally using label weights.
+#' 2. Calculates similarities between intact nhoods from 1st Milo and scrambled nhoods from 2nd.
+#' 3. Calculates and adjusts p-values by comparing true to scrambled similarities.
 #'
-#' @returns A data.table with 3 columns
+#' @returns A data.table with columns from \\code{dt_sims_true} plus:
+#'   \\item{pval}{Empirical p-value for each neighbourhood pair.}
+#'   \\item{pval_adjusted}{Adjusted p-value after multiple testing correction.}
+#'   \\item{is_significant}{Logical indicating significance at \\code{alpha_adjust}.}
 #'
-#' @examples
+#' @keywords internal
+#' @noRd
 .calculate_nhoodnhood_significance_oneway <- function(milos,
                                                       dt_sims_true,
                                                       n_scrambles,

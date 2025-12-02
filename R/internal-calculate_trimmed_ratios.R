@@ -1,11 +1,23 @@
-#' Calculate the number of nhood-nhood edges that were trimmed after comparing true similarities to scrambled ones.
+#' Calculate Proportions of Trimmed Edges
+#'
+#' Internal function that calculates the number of neighbourhood-neighbourhood edges trimmed
+#' after significance filtering, aggregating by neighbourhood annotations.
 #'
 #' @param milos A list of 2 Milo objects.
-#' @param dt_sims_withSignif A data.table with at least 3 columns. Each row represents a pair of nhoods across the Milos (column 1 and 2). A logical column named 'is_significant'
-#' @param cols_label Vector of length 2, names of columns in the Milo's colData. Neighbourhoods will be annotated accroding to these columns and the number of (trimmed) edges will be calculated between the annotations.
+#' @param dt_sims_withSignif A data.table with at least 3 columns. Each row represents a pair
+#'   of neighbourhoods across the two Milos (first two columns contain neighbourhood identifiers).
+#'   Must include a logical column named \"is_significant\".
+#' @param cols_label Character vector of length 2 specifying column names from the Milo's
+#'   \\code{colData}. Neighbourhoods will be annotated according to these columns.
 #'
-#' @returns A data.table with 2 columns indicating the pair of neighbourhoods' labels, a column indication the total number of edges linking these pairs, a column with the number of significant edges, a column with the ratio of these 2.
+#' @returns A data.table with columns representing:\n
+#'   The 1st and 2nd columns: neighbourhood annotation pairs.\n
+#'   \\item{n_all_edges}{Total number of edges linking the annotation pair.}\n
+#'   \\item{n_signif_edges}{Number of significant edges (passed threshold).}\n
+#'   \\item{ratio_retained}{Fraction of edges retained (n_signif / n_all).}
 #'
+#' @keywords internal
+#' @noRd
 .calculate_trimmed_ratios <- function(milos,
                                       dt_sims_withSignif,
                                       cols_label = c("celltype", "celltype")) {

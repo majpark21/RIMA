@@ -1,21 +1,29 @@
-#' Preprocess a pair of Milo objects for RIMA
+#' Preprocess Milo Objects for RIMA Analysis
 #'
-#' @param milo1,milo2 Milo objects or path to RDS files with Milo objects. Their nhoods slot must be populated.
-#' Rownames (i.e. features/gene names) must be specified to ensure that the right features
-#' are compared; feature mapping between the two objects can be provided, see 'dt_features'.
-#' @param assay Assay to calculate neighbourhoods' expression.
-#' @param calculate_expression Whether to calculate neighbourhood's expression. Needed for downstream steps.
-#' @param dt_features DataFrame with 2 columns that maps features across both milos in case the features are not fully overlapping.
-#' The 1st (resp. 2nd) column refers to rownames in milo1 (resp. milo2).
-#' This is useful for example to use orthologs to compare atlases of different species.
-#' This can also be used to perform the matching on a subset of features.
-#' If not specified, rownames must fully match between both milos.
+#' Prepares a pair of Milo objects for RIMA analysis by ensuring consistent feature sets,
+#' calculating neighbourhood expression, and optionally mapping features across datasets.
 #'
-#' @returns A list of 2 Milo objects, with the same row names.
+#' @param milo1,milo2 Milo objects or paths to RDS files containing Milo objects.
+#'   Their \code{nhoods} slot must be populated.
+#'   Rownames (feature/gene names) must be specified to ensure correct feature comparison.
+#'   Feature mapping between objects can be provided via \code{dt_features}.
+#' @param assay Character string specifying which assay to use for calculating
+#'   neighbourhood expression. Default is \code{"logcounts"}.
+#' @param calculate_expression Logical. If \code{TRUE}, calculates neighbourhood expression
+#'   from the specified assay. Required for downstream RIMA functions. Default is \code{TRUE}.
+#' @param dt_features A data.frame or data.table with 2 columns mapping features across the
+#'   two Milos when features are not fully overlapping.
+#'   The 1st column contains feature names in \code{milo1} (resp. 2nd column for \code{milo2}).
+#'   Useful for cross-species comparisons using orthologs, or for analyzing a feature subset.
+#'   If \code{NULL}, rownames must be identical between both Milos.
+#'
+#' @returns A list of 2 Milo objects with the same rownames and calculated neighbourhood expression
+#'   (if \code{calculate_expression = TRUE}).
 #'
 #' @export
 #'
 #' @examples
+#' # Not run: milos <- preprocess_milos(milo1, milo2)
 preprocess_milos <- function(milo1,
                              milo2,
                              assay = "logcounts",

@@ -2,18 +2,28 @@
 % Please edit documentation in R/calculate_similarities.R
 \name{calculate_similarities}
 \alias{calculate_similarities}
-\title{Calculate neighbourhood-neighbourhood similarities}
+\title{Calculate Neighbourhood-Neighbourhood Similarities}
 \usage{
 calculate_similarities(milos, method = "spearman")
 }
 \arguments{
-\item{milos}{List of 2 Milo objects with a filled nhoodExpression slot. Alternatively, can pass a list of 2 matrices representing neighbourhood expression.}
+\item{milos}{List of 2 Milo objects with a filled nhoodExpression slot,
+or alternatively a list of 2 matrices representing neighbourhood expression.}
 
-\item{method}{Similarity metric. Must be one of c('pearson', 'kendall', 'spearman').}
+\item{method}{Character string specifying the similarity metric.
+Must be one of \code{"pearson"}, \code{"kendall"}, or \code{"spearman"}.
+Default is \code{"spearman"}.}
 }
 \value{
-A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value.
+A data.table with 3 columns:
+  \item{nhoods1}{Neighbourhood name from the 1st Milo object.}
+  \item{nhoods2}{Neighbourhood name from the 2nd Milo object.}
+  \item{sim}{Similarity value between the pair of neighbourhoods.}
 }
 \description{
-Calculate neighbourhood-neighbourhood similarities
+Calculates pairwise similarity scores between neighbourhoods across two datasets
+based on their expression profiles.
+}
+\examples{
+# Not run: calculate_similarities(milos, method = "spearman")
 }

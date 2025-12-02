@@ -1,12 +1,31 @@
-#' Weighted Bipartite Graph Matching
+#' Weighted Bipartite Graph Matching for Neighbourhood Pairing
 #'
-#' @param dt_significant_nhoodnhood A data.table with 3 columns. The first 2 columns indicate the pair of neighbourhoods, the third indicates the similarity value. This should only contain the significant nhood-nhood edges to be used for matching.
-#' @param col_sim Column name of dt_significant_nhoodnhood containing the similarity values.
-#' @param col_nhoods1,col_nhoods2 Column name of dt_significant_nhoodnhood containing the names of the 1st (resp. 2nd) sets of nhoods to be matched. If NULL, automatically set to the 1st (resp. 2nd) column name of dt_significant_nhoodnhood
-#' @param return_sim Logical. If TRUE, add a 3rd column to the output that contains the similarity value of the nhood-nhood pair.
+#' Internal function that solves the maximum weight bipartite graph matching problem
+#' to find one-to-one neighbourhood pairings that maximize the sum of similarity weights.
 #'
-#' @returns A data.table with 2 columns where each row represent a pair of matched neighbourhoods.
+#' @param dt_significant_nhoodnhood A data.table with 3 columns. The first 2 columns contain
+#'   neighbourhood identifiers from two datasets, the third column (\\code{col_sim}) contains
+#'   similarity/weight values. Typically only contains significant neighbourhood pairs.
+#' @param col_sim Character string specifying the column name containing similarity/weight values.\n
+#'   Default is \"sim\".
+#' @param col_nhoods1,col_nhoods2 Character strings specifying the column names containing\n
+#'   neighbourhood identifiers from the 1st (resp. 2nd) dataset.\n
+#'   If \\code{NULL}, automatically uses the 1st (resp. 2nd) column names of the input data.table.
+#' @param return_sim Logical. If \\code{TRUE}, adds the similarity/weight value for each\n
+#'   matched pair to the output. Default is \\code{TRUE}.
 #'
+#' @returns A data.table with neighbourhood pairs. The first two columns contain matched\n
+#'   neighbourhood identifiers. If \\code{return_sim = TRUE}, a third column contains the\n
+#'   corresponding similarity values.\n
+#'   Each neighbourhood appears in at most one row (one-to-one matching).
+#'
+#' @details
+#' This function uses \\code{igraph::max_bipartite_match()} to solve the maximum weight\n
+#' bipartite graph matching problem. It ensures that each neighbourhood is matched to\n
+#' at most one other neighbourhood, and the sum of similarity scores is maximized.
+#'
+#' @keywords internal
+#' @noRd
 .weightedBipartiteGraphMatching <- function(dt_significant_nhoodnhood,
                                             col_sim = "sim",
                                             col_nhoods1 = NULL,

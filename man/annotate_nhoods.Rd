@@ -2,25 +2,32 @@
 % Please edit documentation in R/annotate_nhoods.R
 \name{annotate_nhoods}
 \alias{annotate_nhoods}
-\title{Annotate neighbourhoods}
+\title{Annotate Neighbourhoods with Majority Voting}
 \usage{
 annotate_nhoods(milo, cols_annot = c("celltype"))
 }
 \arguments{
 \item{milo}{A Milo object with a filled nhoods slot.}
 
-\item{cols_annot}{The columns from colData to use for annotation.}
+\item{cols_annot}{Character vector of column names from \code{colData} to use for annotation.}
 }
 \value{
-A data.table with the neighbourhoods' annotations. The two first
-  columns contain a nhood label and the name of the nhood. Then a pair of
-  column for each annotation indicating the winning label, and the fraction
-  of cells in the neighbourhood with the winning label.
+A data.table with the following columns:
+  \item{Nhood}{Neighbourhood identifier (numeric).}
+  \item{Nhood_center}{Centre cell name of the neighbourhood.}
+  For each annotation column, two columns are added:
+  \item{<col>}{The winning annotation label for that neighbourhood.}
+  \item{<col>.fraction}{The fraction of cells with the winning label.}
 }
 \description{
-Do a majority voting annotations of neighbourhoods, i.e. the most label among
-the neighbourhood's cells wins.
+Performs majority voting annotation of neighbourhoods, where the most common label
+among a neighbourhood's cells wins. This is a wrapper around \code{miloR::annotateNhoods}.
 }
 \details{
-This is a wrapper around miloR::annotateNhoods
+For each neighbourhood and each annotation column, the function identifies the most
+frequent label among cells in that neighbourhood and records the fraction of cells
+with the winning label.
+}
+\examples{
+# Not run: annotate_nhoods(milo, cols_annot = c("celltype", "stage"))
 }
