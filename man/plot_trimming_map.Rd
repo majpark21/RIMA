@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_trimming_map.R
 \name{plot_trimming_map}
 \alias{plot_trimming_map}
-\title{Heatmap: how many edges linking were trimmed by RIMA?}
+\title{Heatmap: Visualize Edges Trimmed by Significance Testing}
 \usage{
 plot_trimming_map(
   milos,
@@ -15,15 +15,28 @@ plot_trimming_map(
 \arguments{
 \item{milos}{A list of 2 Milo objects.}
 
-\item{dt_sims_withSignif}{A data.table with at least 3 columns. Each row represents a pair of nhoods across the Milos (column 1 and 2). A logical column named 'is_significant'}
+\item{dt_sims_withSignif}{A data.table with at least 3 columns. Each row represents a pair
+of neighbourhoods across the two Milos (first two columns contain neighbourhood identifiers).
+Must include a logical column named \code{"is_significant"}.}
 
-\item{cols_label}{Vector of length 2, names of columns in the Milo's colData. Neighbourhoods will be annotated accroding to these columns and the number of (trimmed) edges will be calculated between the annotations.}
+\item{cols_label}{Character vector of length 2 specifying column names from the Milo's
+\code{colData}. Neighbourhoods will be annotated according to these columns and the
+ratio of retained edges will be calculated between annotated groups.}
 
-\item{cluster_rows, cluster_cols}{Logical, whether to reorder the rows and columns with hierarchical clustering.}
+\item{cluster_rows}{Logical. If \code{TRUE}, reorders rows using hierarchical clustering.
+Default is \code{TRUE}.}
+
+\item{cluster_cols}{Logical. If \code{TRUE}, reorders columns using hierarchical clustering.
+Default is \code{TRUE}.}
 }
 \value{
-A ggplot object
+A \code{ggplot} object displaying a heatmap with the fraction of retained edges.
 }
 \description{
-This function shows how many nhood-nhood edges were trimmed by RIMA. The nhoods are first annotated to calculate the number of (un)significant edges linking 2 neighbourhoods' annotation.
+Displays a heatmap showing the proportion of neighbourhood-neighbourhood edges retained
+after significance filtering. Neighbourhoods are annotated and aggregated, showing how
+many edges linking annotation groups passed significance thresholds.
+}
+\examples{
+# Not run: plot_trimming_map(milos, dt_sims_withSignif)
 }

@@ -9,28 +9,28 @@
 #' @param milos A list of 2 Milo objects. The \code{direction} determines which
 #'   object is kept intact  and which is scrambled to generate the null.
 #' @param dt_sims A data.table with 3 columns as returned by \code{calculate_similarities()}.
-#'   The first 2 columns indicate neighbourhood pairs, the third column (named \"sim\")
+#'   The first 2 columns indicate neighbourhood pairs, the third column (named \code{"sim"})
 #'   contains similarity values between intact neighbourhoods.
 #' @param n_scrambles Integer. Number of rounds of cell resampling to generate the null distribution.
 #' @param col_scramble_label Character string specifying a column in the scrambled Milo's \code{colData}.
 #'   Label frequencies are estimated from this column to weight the sampling probability of each cell
-#'   during scrambling. Cells with common labels are less likely to be sampled. Use \"false\" for unweighted sampling.
-#'   Default is \"false\".
+#'   during scrambling. Cells with common labels are less likely to be sampled. Use \code{"false"} for unweighted sampling.
+#'   Default is \code{"false"}.
 #' @param assay Character string specifying the assay to use for calculating neighbourhood expression.
-#'   Default is \"logcounts\".
+#'   Default is \code{"logcounts"}.
 #' @param sim_method Character string specifying the similarity metric.
-#'   Must be one of \"pearson\", \"kendall\", or \"spearman\". Default is \"spearman\".
+#'   Must be one of \code{"pearson"}, \code{"kendall"}, or \code{"spearman"}. Default is \code{"spearman"}.
 #' @param adjust Character string specifying the method for p-value adjustment.
 #'   Must be a valid method in \code{p.adjust()}. If \code{NULL}, no adjustment is applied.
-#'   Default is \"holm\".
+#'   Default is \code{"holm"}.
 #' @param alpha_adjust Numeric. Significance level for calling edges significant.
 #'   Float between 0 and 1. Default is 0.05.
 #' @param direction Character string specifying the direction of testing.
 #'   Must be one of:
-#'   \\describe{
-#'     \\item{\"lr\"}{Left-right: 1st Milo intact, 2nd scrambled.}
-#'     \\item{\"rl\"}{Right-left: 2nd Milo intact, 1st scrambled.}
-#'     \\item{\"b\"}{Bidirectional (default): tests both directions and combines p-values using Simes' method.}
+#'   \describe{
+#'     \item{\code{"lr"}}{Left-right: 1st Milo intact, 2nd scrambled.}
+#'     \item{\code{"rl"}}{Right-left: 2nd Milo intact, 1st scrambled.}
+#'     \item{\code{"b"}}{Bidirectional (default): tests both directions and combines p-values using Simes' method.}
 #'   }
 #'
 #' @details
@@ -41,10 +41,10 @@
 #' 4. Applies multiple testing correction.
 #' 5. If bidirectional, combines p-values from both directions using Simes' method.
 #'
-#' @returns A data.table based on \\code{dt_sims}, with additional columns:
-#'   \\item{pval}{Empirical p-value for each neighbourhood pair.}
-#'   \\item{pval_adjusted}{Adjusted p-value after multiple testing correction.}
-#'   \\item{is_significant}{Logical indicating whether the pair is significant at \\code{alpha_adjust}.}
+#' @returns A data.table based on \code{dt_sims}, with additional columns:
+#'   \item{pval}{Empirical p-value for each neighbourhood pair.}
+#'   \item{pval_adjusted}{Adjusted p-value after multiple testing correction.}
+#'   \item{is_significant}{Logical indicating whether the pair is significant at \code{alpha_adjust}.}
 #'   (For bidirectional testing, also includes pval_lr, pval_rl, pval_combined, etc.)
 #'
 #' @export

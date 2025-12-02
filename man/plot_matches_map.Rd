@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_matches_map.R
 \name{plot_matches_map}
 \alias{plot_matches_map}
-\title{Heatmap: what neighbourhoods were macthed together?}
+\title{Heatmap: Visualize Neighbourhood Matches by Annotation}
 \usage{
 plot_matches_map(
   milos,
@@ -16,17 +16,31 @@ plot_matches_map(
 \arguments{
 \item{milos}{A list of 2 Milo objects.}
 
-\item{dt_match}{A data.table with at least 3 columns. Each row represents a pair of nhoods across the Milos (column 1 and 2). A logical column named 'is_significant'}
+\item{dt_match}{A data.table with at least 3 columns. Each row represents a matched pair
+of neighbourhoods across the two Milos (first two columns contain neighbourhood identifiers).}
 
-\item{cols_label}{Vector of length 2, names of columns in the Milo's colData. Neighbourhoods will be annotated accroding to these columns and the number of (trimmed) edges will be calculated between the annotations.}
+\item{cols_label}{Character vector of length 2 specifying column names from the Milo's
+\code{colData}. Neighbourhoods will be annotated according to these columns and the
+number of matches will be calculated between the annotated groups.}
 
-\item{cluster_rows, cluster_cols}{Logical, whether to reorder the rows and columns with hierarchical clustering.}
+\item{cluster_rows}{Logical. If \code{TRUE}, reorders rows using hierarchical clustering.
+Default is \code{TRUE}.}
 
-\item{transform}{NULL or a character to transform the number of matches. Valid values include c("log10", "log1p", "sqrt"). See ?ggplot2::scale_fill_continuous for a full list.}
+\item{cluster_cols}{Logical. If \code{TRUE}, reorders columns using hierarchical clustering.
+Default is \code{TRUE}.}
+
+\item{transform}{Character string or \code{NULL}. Specifies a transformation to apply to
+match counts for visualization. Valid values include \code{"log10"}, \code{"log1p"}, \code{"sqrt"}.
+See \code{?ggplot2::scale_fill_continuous} for more options. Default is \code{NULL}.}
 }
 \value{
-A ggplot object.
+A \code{ggplot} object displaying a heatmap of neighbourhood match counts.
 }
 \description{
-This function shows which neighbourhoods were matched by counting the number of matches linking neighbourhoods' annotations. The nhoods are first annotated, then the table of matches is checked against the annotations.
+Displays a heatmap showing which neighbourhoods were matched together, aggregated by
+their annotations. Neighbourhoods are annotated with \code{annotate_nhoods()}, and
+the number of matches between annotation labels is counted and displayed.
+}
+\examples{
+# Not run: plot_matches_map(milos, dt_match, cols_label = c("celltype", "celltype"))
 }

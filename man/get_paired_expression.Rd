@@ -2,20 +2,30 @@
 % Please edit documentation in R/get_paired_expression.R
 \name{get_paired_expression}
 \alias{get_paired_expression}
-\title{Plot paired expression}
+\title{Extract Paired Expression Values}
 \usage{
 get_paired_expression(milos, dt_match, genes = NULL)
 }
 \arguments{
 \item{milos}{List of 2 Milo objects with a filled nhoodExpression slot.}
 
-\item{dt_match}{A data.table with 2 columns containing the nhood-nhood matching. The first (resp. second) column contains the names of nhoods in the 1st (resp. 2nd) Milo object.}
+\item{dt_match}{A data.table with 2 columns containing the nhood-nhood matching.
+The first column contains neighbourhood names from the 1st Milo object,
+the second column contains neighbourhood names from the 2nd Milo object.}
 
-\item{genes}{A vector of gene names. The genes must be present in both Milo's rownames. If NULL, uses all available genes.}
+\item{genes}{A character vector of gene names. Genes must be present in both Milo objects' rownames.
+If \code{NULL}, uses all available genes.}
 }
 \value{
-A data.table
+A data.table with the following columns:
+  \item{gene}{Gene name.}
+  \item{expression_1}{Expression value in the 1st Milo object's neighbourhood.}
+  \item{expression_2}{Expression value in the 2nd Milo object's neighbourhood.}
 }
 \description{
-Plot paired expression
+Extracts expression values for specified genes from pairs of matched neighbourhoods
+across two datasets.
+}
+\examples{
+# Not run: paired_expr <- get_paired_expression(milos, dt_match)
 }

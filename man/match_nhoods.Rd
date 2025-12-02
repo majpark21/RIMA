@@ -2,7 +2,7 @@
 % Please edit documentation in R/match_nhoods.R
 \name{match_nhoods}
 \alias{match_nhoods}
-\title{Matches neighbourhoods with Weighted Bipartite Graph Matching}
+\title{Match Neighbourhoods Using Weighted Bipartite Graph Matching}
 \usage{
 match_nhoods(
   dt_significant_nhoodnhood,
@@ -12,17 +12,29 @@ match_nhoods(
 )
 }
 \arguments{
-\item{dt_significant_nhoodnhood}{A data.table with at least 3 columns as returned by 'calculate_nhoodnhood_significance'. Must contain a column named "sim". The 2 first columns must be contain the nhoods to be matched.}
+\item{dt_significant_nhoodnhood}{A data.table with at least 3 columns as returned by
+\code{calculate_nhoodnhood_significance()}. Must contain columns named "sim" and two neighbourhood
+identifier columns. The first two columns contain the neighbourhood pairs to be matched.}
 
-\item{filter_insignificant}{Logical, whether to filter the rows in 'dt_significant_nhoodnhood', where the column 'col_significance' is not TRUE.}
+\item{filter_insignificant}{Logical. If \code{TRUE}, filters rows in \code{dt_significant_nhoodnhood}
+where the column specified by \code{col_significance} is not \code{TRUE}. Default is \code{TRUE}.}
 
-\item{col_significance}{If filter_insignificant is TRUE; name of a logical column in dt_significant_nhoodnhood used to filter the rows where its value is TRUE.}
+\item{col_significance}{Character string specifying the name of a logical column in
+\code{dt_significant_nhoodnhood} used for filtering rows (when \code{filter_insignificant = TRUE}).
+Default is \code{"is_significant"}.}
 
-\item{return_sim}{Logical. If TRUE, add a 3rd column to the output that contains the similarity value of the nhood-nhood pair.}
+\item{return_sim}{Logical. If \code{TRUE}, adds a 3rd column to the output containing
+the similarity value of each matched nhood-nhood pair. Default is \code{TRUE}.}
 }
 \value{
-A data.table with 2 columns containing the nhood-nhood matching. An additional column is present if return_sim is TRUE.
+A data.table with neighbourhood pairs. The first two columns contain the matched
+  neighbourhood names. If \code{return_sim = TRUE}, a third column \code{sim} contains
+  the similarity scores.
 }
 \description{
-Matches neighbourhoods with Weighted Bipartite Graph Matching
+Identifies one-to-one matching between neighbourhood pairs from two datasets
+using a weighted bipartite graph matching algorithm that maximizes the sum of similarities.
+}
+\examples{
+# Not run: dt_match <- match_nhoods(dt_sims_significant)
 }

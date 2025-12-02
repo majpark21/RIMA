@@ -1,7 +1,7 @@
 #' Heatmap: Visualize Neighbourhood Matches by Annotation
 #'
 #' Displays a heatmap showing which neighbourhoods were matched together, aggregated by
-#' their annotations. Neighbourhoods are annotated with \code{annotate_nhoods(), and
+#' their annotations. Neighbourhoods are annotated with \code{annotate_nhoods()}, and
 #' the number of matches between annotation labels is counted and displayed.
 #'
 #' @param milos A list of 2 Milo objects.
